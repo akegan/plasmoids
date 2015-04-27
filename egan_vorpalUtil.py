@@ -542,10 +542,17 @@ def search_updown(Az, xpos,ypos,DEBUG=False):
 		ycent=ypos
 		j=0
 		
+
+	print Flag
+	print ycent
+	phiMin=0
+	ytop=0
+	ybot=0
 	#next, interpolate possibly, find corresponding x pt and then top and bottom widths
 	phiMax=Az[xpos,ycent]
 	#search left and right for minima
 	i=1
+	realxpos=xpos
 	while Az[xpos+i,ycent]<Az[xpos+i-1,ycent]:
 		if xpos+i==len(Az):
 			if DEBUG:
@@ -554,7 +561,9 @@ def search_updown(Az, xpos,ypos,DEBUG=False):
 			xpos=1
 			i=0
 		i=i+1
-		print "i=%d"%i
+		#print "i=%d"%i
+	print "xpos %d"%xpos
+	print "final i: %d"%i
 	xR=xpos+i-1
 	k=1
 	while Az[xpos-k,ycent]<Az[xpos-k+1,ycent]:
@@ -564,8 +573,11 @@ def search_updown(Az, xpos,ypos,DEBUG=False):
 			xpos=len(Az)-1 #wrap around to the front
 			k=0	
 		k=k+1
-		print "k=%d"%k
+		#print "k=%d"%k
+	print "xpos %d"%xpos
+	print "final k: %d"%k
 	xL=xpos-k+1
+	xpos=realxpos
 	if DEBUG:
 		#print and plot things
 		print "Debug in Search_updown"
@@ -576,8 +588,9 @@ def search_updown(Az, xpos,ypos,DEBUG=False):
 		print xpos
 		print "xL= %d"%xL
 		print "xR=%d"%xR
-		#print len(numpy.arange(xpos-15,xpos+15))
-		#print len(Az[xpos-15:xpos+15,ycent])
+		print "len(Az)=%f"%len(Az)
+		print len(numpy.arange(xpos-15,xpos+15))
+		print len(Az[xpos-15:xpos+15,ycent])
 		ax1.plot(numpy.arange(ycent-20,ycent+20), Az[xpos,ycent-20:ycent+20])
 		ax1.plot(ycent, Az[xpos,ycent],marker="o",linestyle='')
 		ax1.plot([ypos,ypos],[0,.5])
